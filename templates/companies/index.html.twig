@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block title %}Companies{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card bg-light mb-3 mt-3">
+                    <div class="card-body">
+                        <div class="card-header">Largest Companies by Market Cap</div>
+                        {% if app.user != null %}
+                            <table class="table">
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Market Value</th>
+                                </tr>
+                                {% for company in companies %}
+                                    <tr>
+                                        <td>{{ company.name }}</td>
+                                        <td>{{ company.MarketValue }}</td>
+                                        <td>
+                                            {% if app.user.tryFindFollowedCompanyById(company.id) %}
+                                                <a href="{{ path('app_companies_unsubscribe', {'id': company.id}) }}">unsubscribe</a>
+                                            {% else %}
+                                                <a href="{{ path('app_companies_subscribe', {'id': company.id}) }}">subscribe</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+
+                        {% endif %}
+                    </div>
+                </div>
+                {% if app.user == null %}
+                    <a href="{{ path('app_login') }}" class="btn btn-info">
+                        You need to login to see the list 😜😜 >></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

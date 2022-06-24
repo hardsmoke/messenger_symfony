@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Messages{% endblock %}
+
+{% block body %}
+    <style>
+        .table {max-width: 600px;padding: 15px;margin: 0 auto;}
+    </style>
+    <div style="text-align: center;"> <h1>{{ app.user.username }} messages: </h1> </div>
+    <table class="table table-striped table-sm table-bordered border-primary table-hover align-middle">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="text-center">Text</th>
+                <th scope="col" class="text-center">Datetime</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            {% if app.user == message.sender %}
+            <tr>
+                <td class="text-center"><a href="{{ path('app_message_edit', {'id': message.id}) }}">{{ message.text }}</a></td>
+                <td class="text-center"> {{ message.datetime ? message.datetime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

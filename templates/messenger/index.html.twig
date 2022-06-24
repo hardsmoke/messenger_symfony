@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messenger{% endblock %}
+
+{% block body %}
+<style>
+    .form {max-width: 400px;padding: 15px;margin: 0 auto;}
+    .form-control {margin: 0.5%;}
+    .btn {margin: 0.5%;}
+</style>
+{{ form_start(message_form, {'attr': {'class' : 'form'}}) }}
+    {{ form(message_form) }}
+{{ form_end(message_form) }}
+
+<blockquote class="blockquote text-center">
+    {% for message in messages %}
+        <p class="mb-0">{{ message.datetime.format('r') }} <b>{{ message.sender.username }}</b>: {{ message.text }}</p>
+    {% endfor %}
+</blockquote>
+{% endblock %}
